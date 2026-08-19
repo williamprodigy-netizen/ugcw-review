@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>UGC World, leave a review</title>
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="assets/fonts.css">
+<style>
+:root{
+  --ink:#211B14; --body:#3f382e; --mute:#6A6051; --line:#e6e2da;
+  --card:#F7F5F0; --accent:#30A05C; --gold:#b8860b; --bg:#FFFFFF;
+  --hl:#D4BEFF; --red:#E5462A;
+  --font-body:"Nunito","Segoe UI",system-ui,-apple-system,sans-serif;
+  --font-hand:"Caveat","Bradley Hand",cursive;
+  --font-marker:"Permanent Marker","Caveat",cursive;
+  --shadow:4px 5px 0 rgba(33,27,20,0.10);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--body);
+  font:600 17.5px/1.62 var(--font-body);
+  background-image:linear-gradient(rgba(33,27,20,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(33,27,20,.035) 1px,transparent 1px);
+  background-size:34px 34px}
+.wrap{max-width:940px;margin:0 auto;padding:0 22px}
+@media(max-width:700px){.wrap{padding:0 16px}}
+h1{font-size:52px;line-height:1.04;font-weight:900;letter-spacing:-.02em;color:var(--ink)}
+h2{font-size:34px;line-height:1.12;font-weight:900;letter-spacing:-.02em;color:var(--ink)}
+h3{font-size:21px;font-weight:800;color:var(--ink);letter-spacing:-.015em}
+@media(max-width:700px){h1{font-size:34px}h2{font-size:26px}}
+p{margin:0}
+.lede{font-size:19px;color:var(--mute);margin-top:14px;max-width:620px}
+.tag{display:inline-block;font:800 13px/1 var(--font-marker);letter-spacing:.04em;
+  background:var(--hl);color:var(--ink);padding:8px 13px 6px;border-radius:999px;transform:rotate(-1.2deg)}
+.box{background:var(--card);border:2px solid var(--ink);border-radius:16px;box-shadow:var(--shadow)}
+
+/* ---------- top bar ---------- */
+.bar{border-bottom:2px solid var(--ink);background:#fff}
+.bar .wrap{display:flex;align-items:center;justify-content:space-between;gap:14px;height:62px}
+.brand{font:900 14px/1 var(--font-body);letter-spacing:.16em;text-transform:uppercase;color:var(--ink)}
+.bar a{color:var(--ink);font-weight:800;font-size:14.5px;text-decoration:none;border-bottom:2px solid var(--accent)}
+
+/* ---------- hero + star ask ---------- */
+.hero{padding:54px 0 10px}
+.stars{display:flex;gap:10px;margin-top:26px}
+.star{width:62px;height:62px;border:2px solid var(--ink);border-radius:13px;background:#fff;
+  display:grid;place-items:center;cursor:pointer;transition:transform .09s,background .09s;box-shadow:var(--shadow)}
+.star svg{width:31px;height:31px;fill:#d8d2c6;transition:fill .09s}
+.star:hover{transform:translateY(-2px)}
+.star.on{background:var(--accent);border-color:var(--ink)}
+.star.on svg{fill:#fff}
+@media(max-width:700px){.star{width:52px;height:52px}.star svg{width:26px;height:26px}.stars{gap:7px}}
+.hint{font:700 15px/1 var(--font-body);color:var(--mute);margin-top:13px}
+
+/* ---------- form ---------- */
+#form{display:none;padding:30px 0 8px}
+#form.on{display:block}
+.panel{padding:28px 30px;margin-top:8px}
+@media(max-width:700px){.panel{padding:20px 17px}}
+.chosen{display:flex;align-items:center;gap:12px;padding-bottom:16px;border-bottom:1px solid var(--line);margin-bottom:20px;flex-wrap:wrap}
+.mini{display:flex;gap:4px}
+.mini i{width:23px;height:23px;background:var(--accent);border-radius:5px;display:grid;place-items:center}
+.mini i svg{width:13px;height:13px;fill:#fff}
+.chosen b{color:var(--ink);font-size:17px}
+.chosen button{background:none;border:none;color:var(--accent);font:800 15px var(--font-body);cursor:pointer;text-decoration:underline;padding:0}
+label{display:block;font:800 17px var(--font-body);color:var(--ink);margin-bottom:3px}
+label small{display:block;font:600 14.5px/1.45 var(--font-body);color:var(--mute);margin-top:2px}
+.field{margin-bottom:19px}
+textarea,input,select{width:100%;font:600 16.5px/1.55 var(--font-body);color:var(--ink);
+  background:#fff;border:2px solid var(--line);border-radius:11px;padding:12px 14px;margin-top:9px}
+textarea{min-height:118px;resize:vertical}
+textarea:focus,input:focus,select:focus{outline:none;border-color:var(--accent)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:620px){.row2{grid-template-columns:1fr}}
+.btn{display:inline-block;background:var(--accent);color:#fff;border:2px solid var(--ink);border-radius:12px;
+  font:900 18px var(--font-body);padding:15px 30px;cursor:pointer;box-shadow:var(--shadow);text-decoration:none;text-align:center}
+.btn:hover{transform:translateY(-1px)}
+.btn[disabled]{opacity:.55;cursor:not-allowed;transform:none}
+.btn.ghost{background:#fff;color:var(--ink)}
+.fine{font:600 14.5px/1.5 var(--font-body);color:var(--mute);margin-top:11px}
+.err{color:var(--red);font-weight:800;font-size:15px;margin-top:10px;display:none}
+
+/* ---------- bonuses ---------- */
+.bonus{margin-top:34px;padding:28px 30px}
+@media(max-width:700px){.bonus{padding:20px 17px}}
+.blist{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-top:18px}
+@media(max-width:620px){.blist{grid-template-columns:1fr}}
+.b{background:#fff;border:2px solid var(--line);border-radius:12px;padding:15px 16px;display:flex;gap:12px;align-items:flex-start}
+.b .ic{width:30px;height:30px;flex:0 0 30px;border-radius:8px;background:var(--card);display:grid;place-items:center;font-size:16px}
+.b b{display:block;color:var(--ink);font-size:16.5px}
+.b span{font:600 14.5px/1.45 var(--font-body);color:var(--mute)}
+.b a{display:inline-block;margin-top:7px;font:800 15px var(--font-body);color:var(--accent);text-decoration:none;border-bottom:2px solid var(--accent)}
+.locked .b{opacity:.62}
+.locked .b a{display:none}
+.lockrow{display:flex;align-items:center;gap:9px;font:800 15px var(--font-body);color:var(--mute);margin-top:16px}
+
+/* ---------- trustpilot lane ---------- */
+.tp{margin-top:40px;padding:28px 30px;background:#fff;border:2px solid var(--ink);border-radius:16px;box-shadow:var(--shadow)}
+@media(max-width:700px){.tp{padding:20px 17px}}
+.tpstar{color:#00b67a;font-size:19px;letter-spacing:1px}
+
+/* ---------- wall ---------- */
+.wall{margin-top:64px;padding-bottom:70px}
+.score{display:grid;grid-template-columns:auto 1fr;gap:36px;align-items:center;padding:26px 30px;margin-top:22px}
+@media(max-width:700px){.score{grid-template-columns:1fr;gap:20px;padding:20px 17px}}
+.big{font:900 62px/1 var(--font-body);color:var(--ink);letter-spacing:-.03em}
+.dist div{display:grid;grid-template-columns:56px 1fr 44px;gap:11px;align-items:center;margin-bottom:7px;
+  font:700 14.5px var(--font-body);color:var(--mute)}
+.trk{height:11px;background:#e6e2da;border-radius:6px;overflow:hidden}
+.trk i{display:block;height:100%;background:var(--accent)}
+.filters{display:flex;gap:9px;flex-wrap:wrap;margin:26px 0 20px}
+.f{border:2px solid var(--ink);background:#fff;border-radius:999px;padding:9px 17px;
+  font:800 15px var(--font-body);color:var(--ink);cursor:pointer}
+.f.on{background:var(--ink);color:#fff}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:760px){.grid{grid-template-columns:1fr}}
+.rev{background:#fff;border:2px solid var(--ink);border-radius:14px;padding:19px 20px;box-shadow:var(--shadow)}
+.who{display:flex;align-items:center;gap:11px;margin-bottom:11px}
+.av{width:38px;height:38px;flex:0 0 38px;border-radius:50%;background:var(--hl);display:grid;place-items:center;
+  font:900 14px var(--font-body);color:var(--ink)}
+.who b{display:block;color:var(--ink);font-size:16.5px;line-height:1.2}
+.who span{font:700 13.5px var(--font-body);color:var(--mute)}
+.rev h4{font:900 18px/1.25 var(--font-body);color:var(--ink);margin:10px 0 6px;letter-spacing:-.01em}
+.rev p{font:600 16px/1.55 var(--font-body);color:var(--body)}
+.rev .more{background:none;border:none;color:var(--accent);font:800 15px var(--font-body);cursor:pointer;padding:0;margin-top:6px;text-decoration:underline}
+.reply{margin-top:13px;padding:13px 15px;background:var(--card);border-radius:10px;border-left:3px solid var(--accent)}
+.reply b{display:block;font-size:14.5px;color:var(--ink);margin-bottom:3px}
+.reply p{font-size:15px;color:var(--mute)}
+.more-btn{display:block;margin:26px auto 0}
+.disc{margin-top:34px;font:600 14.5px/1.55 var(--font-body);color:var(--mute);border-top:1px solid var(--line);padding-top:18px}
+.sep{height:2px;background:var(--ink);margin:0;border:none;opacity:.12}
+</style>
+</head>
+<body>
+
+<div class="bar"><div class="wrap">
+  <div class="brand">UGC World</div>
+  <a href="#wall">Read the reviews</a>
+</div></div>
+
+<!-- ============ THE ASK ============ -->
+<section class="wrap hero">
+  <span class="tag">two minutes, tops</span>
+  <h1 style="margin-top:16px">Enjoy the masterclass?</h1>
+  <p class="lede">Tap a star. That is the whole ask . . . and it is what decides whether the next person bothers to show up.</p>
+  <div class="stars" id="stars"></div>
+  <p class="hint" id="hint">tap a star</p>
+</section>
+
+<!-- ============ THE FORM ============ -->
+<section class="wrap" id="form">
+  <div class="box panel">
+    <div class="chosen">
+      <div class="mini" id="mini"></div>
+      <b id="thanks">Thanks</b>
+      <button type="button" id="change">change</button>
+    </div>
+
+    <div class="field">
+      <label>What was the one thing that clicked?
+        <small>say it the way you would say it to a friend . . . one or two sentences is plenty</small></label>
+      <textarea id="q1" placeholder="I have been posting for months and had no idea I was pitching brands completely wrong. The media kit part was worth the whole hour."></textarea>
+    </div>
+
+    <div class="field">
+      <label>Where are you at right now?
+        <small>pick one, this is the only dropdown in the whole thing</small></label>
+      <select id="q2">
+        <option value="">choose one</option>
+        <option>Just starting out, no brand deals yet</option>
+        <option>Posting already, no paid deals yet</option>
+        <option>A few paid deals, nothing steady</option>
+        <option>Doing this properly, want it bigger</option>
+      </select>
+    </div>
+
+    <div class="row2">
+      <div class="field"><label>First name</label><input id="fn" autocomplete="given-name"></div>
+      <div class="field"><label>Last initial</label><input id="li" maxlength="1" autocomplete="family-name"></div>
+    </div>
+    <div class="field"><label>Email<small>so we can send the bonuses again if you lose the page</small></label>
+      <input id="em" type="email" autocomplete="email"></div>
+
+    <button class="btn" id="post">Post my review</button>
+    <p class="err" id="err"></p>
+    <p class="fine">Goes up under your first name and last initial. Your email is never published.</p>
+    <p class="fine"><b>Your bonuses unlock whatever you rate us.</b> One star or five, same page, same materials.</p>
+  </div>
+</section>
+
+<!-- ============ BONUSES ============ -->
+<section class="wrap">
+  <div class="box bonus locked" id="bonus">
+    <h2 id="btitle">Your bonuses from today's class</h2>
+    <p class="lede" id="bsub" style="margin-top:8px">All four are sitting right here. Leave your review above and they open on this page, in the same second.</p>
+    <div class="blist">
+      <!-- rendered from BONUSES in the script below -->
+    </div>
+    <p class="lockrow" id="lockrow">&#128274; Locked until you leave your review</p>
+    <div id="applyrow" style="display:none;margin-top:22px;padding-top:20px;border-top:1px solid var(--line)">
+      <h3>Want the version where somebody walks you through it?</h3>
+      <p class="fine" style="margin-bottom:14px">Same thing you saw on the class, with a coach on it.</p>
+      <a class="btn" href="https://ugc-world.com/application" target="_top">Apply for a call</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TRUSTPILOT LANE ============ -->
+<section class="wrap">
+  <div class="tp">
+    <span class="tag">separate thing</span>
+    <h2 style="margin-top:14px">There is a second place you can leave one</h2>
+    <p class="lede">Trustpilot is independent. We cannot edit it, filter it, or take anything down, which is the whole reason people believe it. <b style="color:var(--ink)">Nothing is attached to this one.</b> No bonus, no unlock, no follow up. Leave it only if you feel like it.</p>
+    <p style="margin:18px 0 6px"><span class="tpstar">&#9733;&#9733;&#9733;&#9733;&#9733;</span> <b style="color:var(--ink)">4.7</b> <span style="color:var(--mute);font-weight:700">from 98 reviews on Trustpilot</span></p>
+    <a class="btn ghost" style="margin-top:12px" href="https://www.trustpilot.com/evaluate/ugc-world.com" target="_blank" rel="noopener">Leave a Trustpilot review</a>
+  </div>
+</section>
+
+<!-- ============ THE WALL ============ -->
+<section class="wrap wall" id="wall">
+  <span class="tag">the wall</span>
+  <h2 style="margin-top:15px">What people said after the class</h2>
+  <p class="lede">Every review below is live on our Trustpilot profile. We did not pick them and we cannot take them down.</p>
+
+  <div class="box score">
+    <div>
+      <p style="font:700 15px var(--font-body);color:var(--mute)">Rated</p>
+      <div class="big" id="avg">4.7</div>
+      <p style="font:700 14.5px var(--font-body);color:var(--mute);margin-top:6px" id="cnt">98 reviews</p>
+    </div>
+    <div class="dist" id="dist"></div>
+  </div>
+
+  <div class="filters" id="filters"></div>
+  <div class="grid" id="grid"></div>
+  <button class="btn ghost more-btn" id="loadmore">Show more reviews</button>
+
+  <p class="disc">Reviewers on the form at the top of this page received the class bonuses, whatever rating they left. Trustpilot reviews are collected separately with nothing attached to them. Reviews shown are pulled from our public Trustpilot profile.</p>
+</section>
+
+<script src="assets/reviews.js"></script>
+<script>
+/* ---------- endpoint: set by wire_backend.py ---------- */
+var ENDPOINT = window.REVIEW_ENDPOINT || "";
+
+/* ---------- bonus destinations: paste the real URLs here ----------
+   url:"" means "we email it", which is the current fallback.        */
+var BONUSES=[
+ {ic:"\uD83D\uDCC1", t:"The media kit template", s:"the one from the class, ready to fill in",   url:"https://ugc-world.com/mediakit"},
+ {ic:"\uD83D\uDCC4", t:"The class slides",       s:"every slide, so you are not working off notes", url:""},
+ {ic:"\uD83E\uDD16", t:"Gloria's AI bot",        s:"ask it the questions you did not get to ask live", url:""},
+ {ic:"\uD83C\uDFC1", t:"The starter pack",       s:"the pre class materials, in case you never got the email", url:"https://ugc-world.com/bonus"}
+];
+(function(){
+  var w=document.querySelector('.blist');
+  BONUSES.forEach(function(b){
+    var d=document.createElement('div'); d.className='b';
+    d.innerHTML='<div class="ic">'+b.ic+'</div><div><b>'+b.t+'</b><span>'+b.s+'</span>'+
+      (b.url?'<a href="'+b.url+'" target="_blank" rel="noopener">Open it</a>'
+            :'<a class="mailed" href="#" onclick="return false">Sent to your email</a>')+'</div>';
+    w.appendChild(d);
+  });
+})();
+
+/* ---------- star ask ---------- */
+var SVG='<svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>';
+var rating=0, sent=false;
+var starsEl=document.getElementById('stars');
+for(var i=1;i<=5;i++){
+  var b=document.createElement('div'); b.className='star'; b.dataset.v=i; b.innerHTML=SVG;
+  b.onclick=function(){ pick(+this.dataset.v); };
+  starsEl.appendChild(b);
+}
+function paint(){
+  [].forEach.call(starsEl.children,function(el){ el.classList.toggle('on', +el.dataset.v<=rating); });
+  var m=document.getElementById('mini'); m.innerHTML='';
+  for(var i=0;i<rating;i++){ var s=document.createElement('i'); s.innerHTML=SVG; m.appendChild(s); }
+}
+function pick(v){
+  rating=v; paint();
+  document.getElementById('hint').textContent = v>=4 ? 'brilliant . . . one more bit below' : 'thanks for being straight with us . . . tell us below';
+  document.getElementById('form').classList.add('on');
+  document.getElementById('form').scrollIntoView({behavior:'smooth',block:'start'});
+}
+document.getElementById('change').onclick=function(){
+  document.getElementById('stars').scrollIntoView({behavior:'smooth',block:'center'});
+};
+document.getElementById('fn').addEventListener('input',function(){
+  document.getElementById('thanks').textContent = this.value.trim() ? 'Thanks, '+this.value.trim() : 'Thanks';
+});
+
+/* ---------- submit ---------- */
+document.getElementById('post').onclick=function(){
+  var e=document.getElementById('err');
+  var fn=document.getElementById('fn').value.trim();
+  var em=document.getElementById('em').value.trim();
+  var q1=document.getElementById('q1').value.trim();
+  if(!rating){ e.textContent='Tap a star first.'; e.style.display='block'; return; }
+  if(!q1){ e.textContent='Write a line or two so we know what to put up.'; e.style.display='block'; return; }
+  if(!fn){ e.textContent='We need a first name to put on it.'; e.style.display='block'; return; }
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){ e.textContent='That email does not look right.'; e.style.display='block'; return; }
+  e.style.display='none';
+  var btn=this; btn.disabled=true; btn.textContent='Posting . . .';
+
+  var payload={ rating:rating, review:q1, stage:document.getElementById('q2').value,
+    first_name:fn, last_initial:document.getElementById('li').value.trim(),
+    email:em, source:'ugc-world.com/review', ts:new Date().toISOString() };
+
+  function done(){ unlock(); }
+  if(ENDPOINT){
+    fetch(ENDPOINT,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
+      .then(done).catch(done);
+    setTimeout(function(){ if(!sent) done(); },2500);
+  } else { done(); }
+};
+function unlock(){
+  if(sent) return; sent=true;
+  var b=document.getElementById('bonus');
+  b.classList.remove('locked');
+  document.getElementById('btitle').textContent="That's it, you're in";
+  document.getElementById('bsub').textContent='All four are open below. We have emailed them to you as well, so you have got them twice.';
+  document.getElementById('lockrow').style.display='none';
+  document.getElementById('applyrow').style.display='block';
+  document.getElementById('form').classList.remove('on');
+  b.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+/* ---------- the wall ---------- */
+var R=(window.REVIEWS||{}).reviews||[], META=(window.REVIEWS||{}).meta||{};
+document.getElementById('avg').textContent=(META.score||4.7);
+document.getElementById('cnt').textContent=(META.total||R.length)+' reviews';
+var counts={5:0,4:0,3:0,2:0,1:0};
+R.forEach(function(r){ if(counts[r.stars]!==undefined) counts[r.stars]++; });
+var dist=document.getElementById('dist');
+[5,4,3,2,1].forEach(function(s){
+  var pct=R.length? Math.round(counts[s]/R.length*100):0;
+  var d=document.createElement('div');
+  d.innerHTML='<span>'+s+' star</span><span class="trk"><i style="width:'+pct+'%"></i></span><span>'+pct+'%</span>';
+  dist.appendChild(d);
+});
+var FILTERS=[{k:'all',l:'All '+R.length},{k:'5',l:'5 star'},{k:'crit',l:'Critical'},{k:'new',l:'Newest'}];
+var active='all', shown=8;
+var fw=document.getElementById('filters');
+FILTERS.forEach(function(f){
+  var b=document.createElement('button'); b.className='f'+(f.k==='all'?' on':''); b.textContent=f.l;
+  b.onclick=function(){ active=f.k; shown=8; [].forEach.call(fw.children,function(x){x.classList.remove('on')}); b.classList.add('on'); render(); };
+  fw.appendChild(b);
+});
+function esc(s){ return (s||'').replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c]; }); }
+function initials(n){ return (n||'?').trim().split(/\s+/).slice(0,2).map(function(w){return w[0]}).join('').toUpperCase(); }
+function shortName(n){ var p=(n||'').trim().split(/\s+/); return p.length>1? p[0]+' '+p[1][0]+'.' : (p[0]||'Anonymous'); }
+function fdate(d){ if(!d) return ''; var x=new Date(d);
+  return x.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}); }
+function list(){
+  var a=R.slice();
+  if(active==='5') a=a.filter(function(r){return r.stars===5});
+  if(active==='crit') a=a.filter(function(r){return r.stars<=3});
+  a.sort(function(x,y){ return new Date(y.date)-new Date(x.date); });
+  return a;
+}
+function showTitle(r){
+  if(!r.title) return false;
+  var t=r.title.replace(/[\u2026.]+$/,'').trim();
+  if(!t) return false;
+  var body=(r.text||'').trim();
+  return body.slice(0,t.length).toLowerCase()!==t.toLowerCase();
+}
+function render(){
+  var a=list(), g=document.getElementById('grid'); g.innerHTML='';
+  a.slice(0,shown).forEach(function(r){
+    var txt=esc(r.text||''), longish=txt.length>320;
+    var el=document.createElement('div'); el.className='rev';
+    el.innerHTML=
+      '<div class="who"><div class="av">'+esc(initials(r.name))+'</div><div><b>'+esc(shortName(r.name))+'</b>'+
+      '<span>'+fdate(r.date)+(r.country?' &middot; '+esc(r.country):'')+'</span></div></div>'+
+      '<div class="mini" style="gap:3px">'+Array(r.stars+1).join('<i>'+SVG+'</i>')+'</div>'+
+      (showTitle(r)?'<h4>'+esc(r.title)+'</h4>':'')+
+      '<p class="rtx">'+(longish? txt.slice(0,320)+'&hellip;' : txt)+'</p>'+
+      (longish?'<button class="more">Read more</button>':'')+
+      (r.reply?'<div class="reply"><b>Reply from UGC World</b><p>'+esc(r.reply)+'</p></div>':'');
+    if(longish){ el.querySelector('.more').onclick=function(){ el.querySelector('.rtx').innerHTML=txt; this.remove(); }; }
+    g.appendChild(el);
+  });
+  document.getElementById('loadmore').style.display = a.length>shown ? 'block':'none';
+}
+document.getElementById('loadmore').onclick=function(){ shown+=8; render(); };
+render();
+</script>
+</body>
+</html>
