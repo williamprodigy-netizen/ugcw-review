@@ -142,10 +142,6 @@ textarea:focus,input:focus,select:focus{outline:none;border-color:var(--accent)}
 .tpscore b{font:900 40px/1 var(--font-body);color:var(--ink);letter-spacing:-.02em}
 .tpscore span{font:700 16.5px var(--font-body);color:var(--mute)}
 .btn.tpbtn{background:#00b67a;font-size:19px;padding:17px 34px;margin-top:22px}
-.pts{margin-top:22px;padding-top:19px;border-top:1px solid var(--line)}
-.pts div{display:flex;gap:11px;align-items:flex-start;margin-bottom:11px;font:600 16.5px/1.5 var(--font-body)}
-.pts div:last-child{margin-bottom:0}
-.pts s{text-decoration:none;color:var(--accent);font-weight:900;flex:0 0 auto}
 
 
 </style>
@@ -167,11 +163,6 @@ textarea:focus,input:focus,select:focus{outline:none;border-color:var(--accent)}
     <div class="tpstars" id="tpstars"></div>
     <div class="tpscore"><b>4.7</b><span>from 98 reviews on Trustpilot</span></div>
     <a class="btn tpbtn" href="https://www.trustpilot.com/evaluate/ugc-world.com" target="_blank" rel="noopener" id="tpgo">Leave your review on Trustpilot</a>
-    <div class="pts">
-      <div><s>&#10003;</s><span>Takes about two minutes. You do not need an account with us, just an email.</span></div>
-      <div><s>&#10003;</s><span>It goes on Trustpilot, not on a page we control. We cannot edit it, filter it, or take it down.</span></div>
-      <div><s>&#10003;</s><span>Say what you actually thought. A straight review is worth more to us than a kind one.</span></div>
-    </div>
   </div>
 </section>
 
@@ -183,18 +174,12 @@ textarea:focus,input:focus,select:focus{outline:none;border-color:var(--accent)}
     <div class="blist"></div>
     
     <p class="fine" style="margin-top:16px">Nothing here is attached to a review. Leave one only if you want to.</p>
-    <div id="applyrow" style="margin-top:22px;padding-top:20px;border-top:1px solid var(--line)">
-      <h3>Want the version where somebody walks you through it?</h3>
-      <p class="fine" style="margin-bottom:14px">Same thing you saw on the class, with a coach on it.</p>
-      <a class="btn" href="https://ugc-world.com/application" target="_top">Apply for a call</a>
-    </div>
   </div>
 </section>
 
 <!-- ============ THE WALL ============ -->
 <section class="wrap wall" id="wall">
-  <span class="tag">the wall</span>
-  <h2 style="margin-top:15px">What people said after the class</h2>
+  <h2>What people said after the class</h2>
   <p class="lede">Every review below is live on our Trustpilot profile. We did not pick them and we cannot take them down.</p>
 
   <div class="box score">
@@ -251,7 +236,7 @@ var dist=document.getElementById('dist');
   d.innerHTML='<span>'+s+' star</span><span class="trk"><i style="width:'+pct+'%"></i></span><span>'+pct+'%</span>';
   dist.appendChild(d);
 });
-var FILTERS=[{k:'all',l:'All '+R.length},{k:'5',l:'5 star'},{k:'crit',l:'Critical'},{k:'new',l:'Newest'}];
+var FILTERS=[{k:'all',l:'All '+R.length},{k:'5',l:'5 star'}];
 var active='all', shown=8;
 var fw=document.getElementById('filters');
 FILTERS.forEach(function(f){
@@ -271,7 +256,6 @@ function showTitle(r){
 function list(){
   var a=R.slice();
   if(active==='5') a=a.filter(function(r){return r.stars===5});
-  if(active==='crit') a=a.filter(function(r){return r.stars<=3});
   a.sort(function(x,y){ return new Date(y.date)-new Date(x.date); });
   return a;
 }
