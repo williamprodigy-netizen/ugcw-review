@@ -129,6 +129,41 @@ textarea:focus,input:focus,select:focus{outline:none;border-color:var(--accent)}
 .more-btn{display:block;margin:26px auto 0}
 .disc{margin-top:34px;font:600 14.5px/1.55 var(--font-body);color:var(--mute);border-top:1px solid var(--line);padding-top:18px}
 .sep{height:2px;background:var(--ink);margin:0;border:none;opacity:.12}
+
+/* ---------- trustpilot primary ---------- */
+.tpcard{margin-top:30px;padding:34px 36px;background:#fff;border:2px solid var(--ink);border-radius:18px;box-shadow:6px 7px 0 rgba(33,27,20,.10)}
+@media(max-width:700px){.tpcard{padding:24px 19px}}
+.tpstars{display:flex;gap:5px;align-items:center}
+.tpstars i{width:34px;height:34px;background:#00b67a;border-radius:5px;display:grid;place-items:center}
+.tpstars i svg{width:20px;height:20px;fill:#fff}
+@media(max-width:700px){.tpstars i{width:28px;height:28px}.tpstars i svg{width:17px;height:17px}}
+.tpscore{display:flex;align-items:baseline;gap:11px;margin-top:15px;flex-wrap:wrap}
+.tpscore b{font:900 40px/1 var(--font-body);color:var(--ink);letter-spacing:-.02em}
+.tpscore span{font:700 16.5px var(--font-body);color:var(--mute)}
+.btn.tpbtn{background:#00b67a;font-size:19px;padding:17px 34px;margin-top:22px}
+.pts{margin-top:22px;padding-top:19px;border-top:1px solid var(--line)}
+.pts div{display:flex;gap:11px;align-items:flex-start;margin-bottom:11px;font:600 16.5px/1.5 var(--font-body)}
+.pts div:last-child{margin-bottom:0}
+.pts s{text-decoration:none;color:var(--accent);font-weight:900;flex:0 0 auto}
+
+/* ---------- video secondary ---------- */
+.vid{margin-top:22px;padding:30px 32px}
+@media(max-width:700px){.vid{padding:22px 18px}}
+.stage{position:relative;width:100%;background:#211B14;border-radius:14px;overflow:hidden;height:380px;margin-top:20px;display:grid;place-items:center}
+.stage video{width:100%;height:100%;object-fit:cover;display:none}
+.stage.live video{display:block}
+.stage.live .ph{display:none}
+.stage .ph{color:#8a8175;font:700 16px var(--font-body);text-align:center;padding:0 24px}
+.timer{position:absolute;top:13px;left:13px;background:rgba(0,0,0,.72);color:#fff;
+  font:800 14px var(--font-body);padding:6px 11px;border-radius:8px;display:none}
+.timer.on{display:block}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--red);margin-right:6px;vertical-align:middle}
+.vbtns{display:flex;gap:11px;flex-wrap:wrap;margin-top:18px}
+.prompt{margin-top:18px;padding:15px 17px;background:#fff;border:2px solid var(--line);border-radius:11px}
+.prompt b{display:block;font:800 15px var(--font-body);color:var(--ink);margin-bottom:6px}
+.prompt p{font:600 16.5px/1.55 var(--font-body);color:var(--body)}
+.vfields{margin-top:20px;display:none}
+.vfields.on{display:block}
 </style>
 </head>
 <body>
@@ -138,81 +173,75 @@ textarea:focus,input:focus,select:focus{outline:none;border-color:var(--accent)}
   <a href="#wall">Read the reviews</a>
 </div></div>
 
-<!-- ============ THE ASK ============ -->
+<!-- ============ PRIMARY: TRUSTPILOT ============ -->
 <section class="wrap hero">
   <span class="tag">two minutes, tops</span>
   <h1 style="margin-top:16px">Enjoy the masterclass?</h1>
-  <p class="lede">Tap a star. That is the whole ask . . . and it is what decides whether the next person bothers to show up.</p>
-  <div class="stars" id="stars"></div>
-  <p class="hint" id="hint">tap a star</p>
+  <p class="lede">Leave us a review. It is the thing that decides whether the next person bothers to show up.</p>
+
+  <div class="tpcard">
+    <div class="tpstars" id="tpstars"></div>
+    <div class="tpscore"><b>4.7</b><span>from 98 reviews on Trustpilot</span></div>
+    <a class="btn tpbtn" href="https://www.trustpilot.com/evaluate/ugc-world.com" target="_blank" rel="noopener" id="tpgo">Leave your review on Trustpilot</a>
+    <div class="pts">
+      <div><s>&#10003;</s><span>Takes about two minutes. You do not need an account with us, just an email.</span></div>
+      <div><s>&#10003;</s><span>It goes on Trustpilot, not on a page we control. We cannot edit it, filter it, or take it down.</span></div>
+      <div><s>&#10003;</s><span>Say what you actually thought. A straight review is worth more to us than a kind one.</span></div>
+    </div>
+  </div>
 </section>
 
-<!-- ============ THE FORM ============ -->
-<section class="wrap" id="form">
-  <div class="box panel">
-    <div class="chosen">
-      <div class="mini" id="mini"></div>
-      <b id="thanks">Thanks</b>
-      <button type="button" id="change">change</button>
+<!-- ============ SECONDARY: VIDEO ============ -->
+<section class="wrap" style="margin-top:52px">
+  <span class="tag">optional</span>
+  <h2 style="margin-top:14px">Rather say it on camera?</h2>
+  <p class="lede">Thirty seconds, straight from your browser. No app, no account, no upload to figure out. This one lives on our page, and it is the one that actually gets people off the fence.</p>
+
+  <div class="box vid">
+    <div class="stage" id="stage">
+      <video id="pv" playsinline muted></video>
+      <div class="ph" id="ph">Your camera turns on when you hit record. Nothing is sent until you pick a take.</div>
+      <div class="timer" id="timer"><span class="dot"></span><span id="tt">0:00 / 0:30</span></div>
     </div>
 
-    <div class="field">
-      <label>What was the one thing that clicked?
-        <small>say it the way you would say it to a friend . . . one or two sentences is plenty</small></label>
-      <textarea id="q1" placeholder="I have been posting for months and had no idea I was pitching brands completely wrong. The media kit part was worth the whole hour."></textarea>
+    <div class="vbtns">
+      <button class="btn" id="rec">Record it (30s)</button>
+      <button class="btn ghost" id="retake" style="display:none">Take it again</button>
+      <button class="btn" id="use" style="display:none">Use this take</button>
+    </div>
+    <p class="err" id="verr"></p>
+
+    <div class="prompt">
+      <b>Read this off the screen if it helps</b>
+      <p>"Hey, I'm ___ . I just watched the class and the thing that got me was ___ . If you're on the fence about showing up . . . show up."</p>
     </div>
 
-    <div class="field">
-      <label>Where are you at right now?
-        <small>pick one, this is the only dropdown in the whole thing</small></label>
-      <select id="q2">
-        <option value="">choose one</option>
-        <option>Just starting out, no brand deals yet</option>
-        <option>Posting already, no paid deals yet</option>
-        <option>A few paid deals, nothing steady</option>
-        <option>Doing this properly, want it bigger</option>
-      </select>
+    <div class="vfields" id="vfields">
+      <div class="row2">
+        <div class="field"><label>First name</label><input id="vfn" autocomplete="given-name"></div>
+        <div class="field"><label>Last initial</label><input id="vli" maxlength="1"></div>
+      </div>
+      <div class="field"><label>Email<small>so we can send your bonuses again if you lose this page</small></label>
+        <input id="vem" type="email" autocomplete="email"></div>
+      <button class="btn" id="vpost">Send my video</button>
+      <p class="fine">Goes up under your first name and last initial. Your email is never published.</p>
     </div>
-
-    <div class="row2">
-      <div class="field"><label>First name</label><input id="fn" autocomplete="given-name"></div>
-      <div class="field"><label>Last initial</label><input id="li" maxlength="1" autocomplete="family-name"></div>
-    </div>
-    <div class="field"><label>Email<small>so we can send the bonuses again if you lose the page</small></label>
-      <input id="em" type="email" autocomplete="email"></div>
-
-    <button class="btn" id="post">Post my review</button>
-    <p class="err" id="err"></p>
-    <p class="fine">Goes up under your first name and last initial. Your email is never published.</p>
-    <p class="fine"><b>Your bonuses unlock whatever you rate us.</b> One star or five, same page, same materials.</p>
   </div>
 </section>
 
 <!-- ============ BONUSES ============ -->
-<section class="wrap">
+<section class="wrap" style="margin-top:22px">
   <div class="box bonus locked" id="bonus">
     <h2 id="btitle">Your bonuses from today's class</h2>
-    <p class="lede" id="bsub" style="margin-top:8px">All four are sitting right here. Leave your review above and they open on this page, in the same second.</p>
-    <div class="blist">
-      <!-- rendered from BONUSES in the script below -->
-    </div>
-    <p class="lockrow" id="lockrow">&#128274; Locked until you leave your review</p>
+    <p class="lede" id="bsub" style="margin-top:8px">All four are sitting right here. Send a video above and they open on this page, in the same second.</p>
+    <div class="blist"></div>
+    <p class="lockrow" id="lockrow">&#128274; Locked until you send a video</p>
+    <p class="fine" style="margin-top:14px"><b>These unlock whatever you say in the video.</b> Nothing here is attached to your Trustpilot review, and nothing is conditional on being nice about us.</p>
     <div id="applyrow" style="display:none;margin-top:22px;padding-top:20px;border-top:1px solid var(--line)">
       <h3>Want the version where somebody walks you through it?</h3>
       <p class="fine" style="margin-bottom:14px">Same thing you saw on the class, with a coach on it.</p>
       <a class="btn" href="https://ugc-world.com/application" target="_top">Apply for a call</a>
     </div>
-  </div>
-</section>
-
-<!-- ============ TRUSTPILOT LANE ============ -->
-<section class="wrap">
-  <div class="tp">
-    <span class="tag">separate thing</span>
-    <h2 style="margin-top:14px">There is a second place you can leave one</h2>
-    <p class="lede">Trustpilot is independent. We cannot edit it, filter it, or take anything down, which is the whole reason people believe it. <b style="color:var(--ink)">Nothing is attached to this one.</b> No bonus, no unlock, no follow up. Leave it only if you feel like it.</p>
-    <p style="margin:18px 0 6px"><span class="tpstar">&#9733;&#9733;&#9733;&#9733;&#9733;</span> <b style="color:var(--ink)">4.7</b> <span style="color:var(--mute);font-weight:700">from 98 reviews on Trustpilot</span></p>
-    <a class="btn ghost" style="margin-top:12px" href="https://www.trustpilot.com/evaluate/ugc-world.com" target="_blank" rel="noopener">Leave a Trustpilot review</a>
   </div>
 </section>
 
@@ -235,21 +264,21 @@ textarea:focus,input:focus,select:focus{outline:none;border-color:var(--accent)}
   <div class="grid" id="grid"></div>
   <button class="btn ghost more-btn" id="loadmore">Show more reviews</button>
 
-  <p class="disc">Reviewers on the form at the top of this page received the class bonuses, whatever rating they left. Trustpilot reviews are collected separately with nothing attached to them. Reviews shown are pulled from our public Trustpilot profile.</p>
+  <p class="disc">Trustpilot reviews are collected with nothing attached to them. Video testimonials sent through the form on this page received the class bonuses, whatever they said. Reviews shown are pulled from our public Trustpilot profile.</p>
 </section>
 
 <script src="assets/reviews.js"></script>
 <script>
-/* ---------- endpoint: set by wire_backend.py ---------- */
 var ENDPOINT = window.REVIEW_ENDPOINT || "";
+var VIDEO_ENDPOINT = window.VIDEO_ENDPOINT || "";
+var SVG='<svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>';
 
-/* ---------- bonus destinations: paste the real URLs here ----------
-   url:"" means "we email it", which is the current fallback.        */
+/* bonus destinations: paste real URLs here, "" renders "Sent to your email" */
 var BONUSES=[
- {ic:"\uD83D\uDCC1", t:"The media kit template", s:"the one from the class, ready to fill in",   url:"https://ugc-world.com/mediakit"},
- {ic:"\uD83D\uDCC4", t:"The class slides",       s:"every slide, so you are not working off notes", url:""},
- {ic:"\uD83E\uDD16", t:"Gloria's AI bot",        s:"ask it the questions you did not get to ask live", url:""},
- {ic:"\uD83C\uDFC1", t:"The starter pack",       s:"the pre class materials, in case you never got the email", url:"https://ugc-world.com/bonus"}
+ {ic:"\uD83D\uDCC1", t:"The media kit template", s:"the one from the class, ready to fill in", url:"https://ugc-world.com/mediakit"},
+ {ic:"\uD83D\uDCC4", t:"The class slides", s:"every slide, so you are not working off notes", url:""},
+ {ic:"\uD83E\uDD16", t:"Gloria's AI bot", s:"ask it the questions you did not get to ask live", url:""},
+ {ic:"\uD83C\uDFC1", t:"The starter pack", s:"the pre class materials, in case you never got the email", url:"https://ugc-world.com/bonus"}
 ];
 (function(){
   var w=document.querySelector('.blist');
@@ -260,57 +289,79 @@ var BONUSES=[
             :'<a class="mailed" href="#" onclick="return false">Sent to your email</a>')+'</div>';
     w.appendChild(d);
   });
+  var ts=document.getElementById('tpstars');
+  for(var i=0;i<5;i++){ var e=document.createElement('i'); e.innerHTML=SVG; ts.appendChild(e); }
 })();
 
-/* ---------- star ask ---------- */
-var SVG='<svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>';
-var rating=0, sent=false;
-var starsEl=document.getElementById('stars');
-for(var i=1;i<=5;i++){
-  var b=document.createElement('div'); b.className='star'; b.dataset.v=i; b.innerHTML=SVG;
-  b.onclick=function(){ pick(+this.dataset.v); };
-  starsEl.appendChild(b);
-}
-function paint(){
-  [].forEach.call(starsEl.children,function(el){ el.classList.toggle('on', +el.dataset.v<=rating); });
-  var m=document.getElementById('mini'); m.innerHTML='';
-  for(var i=0;i<rating;i++){ var s=document.createElement('i'); s.innerHTML=SVG; m.appendChild(s); }
-}
-function pick(v){
-  rating=v; paint();
-  document.getElementById('hint').textContent = v>=4 ? 'brilliant . . . one more bit below' : 'thanks for being straight with us . . . tell us below';
-  document.getElementById('form').classList.add('on');
-  document.getElementById('form').scrollIntoView({behavior:'smooth',block:'start'});
-}
-document.getElementById('change').onclick=function(){
-  document.getElementById('stars').scrollIntoView({behavior:'smooth',block:'center'});
+/* ---------- video lane ---------- */
+var stream=null, rec=null, chunks=[], blob=null, tick=null, secs=0, sent=false;
+var pv=document.getElementById('pv'), ph=document.getElementById('ph');
+var bRec=document.getElementById('rec'), bRet=document.getElementById('retake'), bUse=document.getElementById('use');
+var timer=document.getElementById('timer'), tt=document.getElementById('tt'), verr=document.getElementById('verr');
+function vfail(m){ verr.textContent=m; verr.style.display='block'; }
+function fmt(n){ return '0:'+(n<10?'0':'')+n; }
+
+bRec.onclick=async function(){
+  verr.style.display='none';
+  if(!navigator.mediaDevices || !window.MediaRecorder){
+    vfail('This browser will not record video. Chrome or Safari on your phone will.'); return;
+  }
+  try{
+    stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user',width:{ideal:1280}},audio:true});
+  }catch(e){
+    vfail('We could not reach your camera. Allow camera access and try again.'); return;
+  }
+  document.getElementById('stage').classList.add('live');
+  pv.srcObject=stream; pv.muted=true; pv.play();
+  chunks=[]; blob=null;
+  try{ rec=new MediaRecorder(stream); }catch(e){ vfail('Recording is not supported here.'); return; }
+  rec.ondataavailable=function(e){ if(e.data && e.data.size) chunks.push(e.data); };
+  rec.onstop=function(){
+    blob=new Blob(chunks,{type:(chunks[0]&&chunks[0].type)||'video/webm'});
+    stream.getTracks().forEach(function(t){t.stop()});
+    pv.srcObject=null; pv.src=URL.createObjectURL(blob); pv.muted=false; pv.controls=true;
+    timer.classList.remove('on');
+    bRec.style.display='none'; bRet.style.display='inline-block'; bUse.style.display='inline-block';
+    document.getElementById('vfields').classList.add('on');
+  };
+  rec.start();
+  secs=0; tt.textContent=fmt(0)+' / 0:30'; timer.classList.add('on');
+  bRec.textContent='Stop'; bRec.onclick=stopRec;
+  tick=setInterval(function(){ secs++; tt.textContent=fmt(secs)+' / 0:30'; if(secs>=30) stopRec(); },1000);
 };
-document.getElementById('fn').addEventListener('input',function(){
-  document.getElementById('thanks').textContent = this.value.trim() ? 'Thanks, '+this.value.trim() : 'Thanks';
-});
+function stopRec(){
+  clearInterval(tick);
+  if(rec && rec.state!=='inactive') rec.stop();
+  bRec.textContent='Record it (30s)';
+}
+bRet.onclick=function(){
+  blob=null; pv.controls=false; pv.src='';
+  document.getElementById('stage').classList.remove('live');
+  bRet.style.display='none'; bUse.style.display='none';
+  bRec.style.display='inline-block';
+  document.getElementById('vfields').classList.remove('on');
+  location.reload();
+};
+bUse.onclick=function(){ document.getElementById('vfields').scrollIntoView({behavior:'smooth',block:'center'}); };
 
-/* ---------- submit ---------- */
-document.getElementById('post').onclick=function(){
-  var e=document.getElementById('err');
-  var fn=document.getElementById('fn').value.trim();
-  var em=document.getElementById('em').value.trim();
-  var q1=document.getElementById('q1').value.trim();
-  if(!rating){ e.textContent='Tap a star first.'; e.style.display='block'; return; }
-  if(!q1){ e.textContent='Write a line or two so we know what to put up.'; e.style.display='block'; return; }
-  if(!fn){ e.textContent='We need a first name to put on it.'; e.style.display='block'; return; }
-  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){ e.textContent='That email does not look right.'; e.style.display='block'; return; }
-  e.style.display='none';
-  var btn=this; btn.disabled=true; btn.textContent='Posting . . .';
-
-  var payload={ rating:rating, review:q1, stage:document.getElementById('q2').value,
-    first_name:fn, last_initial:document.getElementById('li').value.trim(),
-    email:em, source:'ugc-world.com/review', ts:new Date().toISOString() };
-
+document.getElementById('vpost').onclick=function(){
+  var fn=document.getElementById('vfn').value.trim();
+  var em=document.getElementById('vem').value.trim();
+  verr.style.display='none';
+  if(!blob){ vfail('Record a take first.'); return; }
+  if(!fn){ vfail('We need a first name to put on it.'); return; }
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){ vfail('That email does not look right.'); return; }
+  var btn=this; btn.disabled=true; btn.textContent='Sending . . .';
   function done(){ unlock(); }
-  if(ENDPOINT){
-    fetch(ENDPOINT,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
-      .then(done).catch(done);
-    setTimeout(function(){ if(!sent) done(); },2500);
+  if(VIDEO_ENDPOINT){
+    var fd=new FormData();
+    fd.append('video',blob,'review.webm');
+    fd.append('first_name',fn);
+    fd.append('last_initial',document.getElementById('vli').value.trim());
+    fd.append('email',em);
+    fd.append('source','ugc-world.com/review');
+    fetch(VIDEO_ENDPOINT,{method:'POST',mode:'no-cors',body:fd}).then(done).catch(done);
+    setTimeout(function(){ if(!sent) done(); },4000);
   } else { done(); }
 };
 function unlock(){
@@ -321,7 +372,6 @@ function unlock(){
   document.getElementById('bsub').textContent='All four are open below. We have emailed them to you as well, so you have got them twice.';
   document.getElementById('lockrow').style.display='none';
   document.getElementById('applyrow').style.display='block';
-  document.getElementById('form').classList.remove('on');
   b.scrollIntoView({behavior:'smooth',block:'start'});
 }
 
@@ -349,21 +399,18 @@ FILTERS.forEach(function(f){
 function esc(s){ return (s||'').replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c]; }); }
 function initials(n){ return (n||'?').trim().split(/\s+/).slice(0,2).map(function(w){return w[0]}).join('').toUpperCase(); }
 function shortName(n){ var p=(n||'').trim().split(/\s+/); return p.length>1? p[0]+' '+p[1][0]+'.' : (p[0]||'Anonymous'); }
-function fdate(d){ if(!d) return ''; var x=new Date(d);
-  return x.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}); }
+function fdate(d){ if(!d) return ''; var x=new Date(d); return x.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}); }
+function showTitle(r){
+  if(!r.title) return false;
+  var t=r.title.replace(/[\u2026.]+$/,'').trim(); if(!t) return false;
+  return (r.text||'').trim().slice(0,t.length).toLowerCase()!==t.toLowerCase();
+}
 function list(){
   var a=R.slice();
   if(active==='5') a=a.filter(function(r){return r.stars===5});
   if(active==='crit') a=a.filter(function(r){return r.stars<=3});
   a.sort(function(x,y){ return new Date(y.date)-new Date(x.date); });
   return a;
-}
-function showTitle(r){
-  if(!r.title) return false;
-  var t=r.title.replace(/[\u2026.]+$/,'').trim();
-  if(!t) return false;
-  var body=(r.text||'').trim();
-  return body.slice(0,t.length).toLowerCase()!==t.toLowerCase();
 }
 function render(){
   var a=list(), g=document.getElementById('grid'); g.innerHTML='';
