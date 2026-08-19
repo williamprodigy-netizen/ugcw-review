@@ -88,7 +88,8 @@ textarea:focus,input:focus,select:focus{outline:none;border-color:var(--accent)}
 .b{background:#fff;border:2px solid var(--line);border-radius:12px;padding:15px 16px;display:flex;gap:12px;align-items:flex-start}
 .b .ic{width:30px;height:30px;flex:0 0 30px;border-radius:8px;background:var(--card);display:grid;place-items:center;font-size:16px}
 .b b{display:block;color:var(--ink);font-size:16.5px}
-.b span{font:600 14.5px/1.45 var(--font-body);color:var(--mute)}
+.b span{display:block;font:600 14.5px/1.45 var(--font-body);color:var(--mute)}
+.b .mailed{color:var(--mute);border:none;font-weight:700;cursor:default}
 .b a{display:inline-block;margin-top:7px;font:800 15px var(--font-body);color:var(--accent);text-decoration:none;border-bottom:2px solid var(--accent)}
 .locked .b{opacity:.62}
 .locked .b a{display:none}
@@ -146,24 +147,7 @@ textarea:focus,input:focus,select:focus{outline:none;border-color:var(--accent)}
 .pts div:last-child{margin-bottom:0}
 .pts s{text-decoration:none;color:var(--accent);font-weight:900;flex:0 0 auto}
 
-/* ---------- video secondary ---------- */
-.vid{margin-top:22px;padding:30px 32px}
-@media(max-width:700px){.vid{padding:22px 18px}}
-.stage{position:relative;width:100%;background:#211B14;border-radius:14px;overflow:hidden;height:380px;margin-top:20px;display:grid;place-items:center}
-.stage video{width:100%;height:100%;object-fit:cover;display:none}
-.stage.live video{display:block}
-.stage.live .ph{display:none}
-.stage .ph{color:#8a8175;font:700 16px var(--font-body);text-align:center;padding:0 24px}
-.timer{position:absolute;top:13px;left:13px;background:rgba(0,0,0,.72);color:#fff;
-  font:800 14px var(--font-body);padding:6px 11px;border-radius:8px;display:none}
-.timer.on{display:block}
-.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--red);margin-right:6px;vertical-align:middle}
-.vbtns{display:flex;gap:11px;flex-wrap:wrap;margin-top:18px}
-.prompt{margin-top:18px;padding:15px 17px;background:#fff;border:2px solid var(--line);border-radius:11px}
-.prompt b{display:block;font:800 15px var(--font-body);color:var(--ink);margin-bottom:6px}
-.prompt p{font:600 16.5px/1.55 var(--font-body);color:var(--body)}
-.vfields{margin-top:20px;display:none}
-.vfields.on{display:block}
+
 </style>
 </head>
 <body>
@@ -191,53 +175,15 @@ textarea:focus,input:focus,select:focus{outline:none;border-color:var(--accent)}
   </div>
 </section>
 
-<!-- ============ SECONDARY: VIDEO ============ -->
-<section class="wrap" style="margin-top:52px">
-  <span class="tag">optional</span>
-  <h2 style="margin-top:14px">Rather say it on camera?</h2>
-  <p class="lede">Thirty seconds, straight from your browser. No app, no account, no upload to figure out. This one lives on our page, and it is the one that actually gets people off the fence.</p>
-
-  <div class="box vid">
-    <div class="stage" id="stage">
-      <video id="pv" playsinline muted></video>
-      <div class="ph" id="ph">Your camera turns on when you hit record. Nothing is sent until you pick a take.</div>
-      <div class="timer" id="timer"><span class="dot"></span><span id="tt">0:00 / 0:30</span></div>
-    </div>
-
-    <div class="vbtns">
-      <button class="btn" id="rec">Record it (30s)</button>
-      <button class="btn ghost" id="retake" style="display:none">Take it again</button>
-      <button class="btn" id="use" style="display:none">Use this take</button>
-    </div>
-    <p class="err" id="verr"></p>
-
-    <div class="prompt">
-      <b>Read this off the screen if it helps</b>
-      <p>"Hey, I'm ___ . I just watched the class and the thing that got me was ___ . If you're on the fence about showing up . . . show up."</p>
-    </div>
-
-    <div class="vfields" id="vfields">
-      <div class="row2">
-        <div class="field"><label>First name</label><input id="vfn" autocomplete="given-name"></div>
-        <div class="field"><label>Last initial</label><input id="vli" maxlength="1"></div>
-      </div>
-      <div class="field"><label>Email<small>so we can send your bonuses again if you lose this page</small></label>
-        <input id="vem" type="email" autocomplete="email"></div>
-      <button class="btn" id="vpost">Send my video</button>
-      <p class="fine">Goes up under your first name and last initial. Your email is never published.</p>
-    </div>
-  </div>
-</section>
-
 <!-- ============ BONUSES ============ -->
 <section class="wrap" style="margin-top:22px">
-  <div class="box bonus locked" id="bonus">
+  <div class="box bonus" id="bonus">
     <h2 id="btitle">Your bonuses from today's class</h2>
-    <p class="lede" id="bsub" style="margin-top:8px">All four are sitting right here. Send a video above and they open on this page, in the same second.</p>
+    <p class="lede" id="bsub" style="margin-top:8px">Yours either way. No review needed, no form, nothing to send us. If you never got the email, take them from here.</p>
     <div class="blist"></div>
-    <p class="lockrow" id="lockrow">&#128274; Locked until you send a video</p>
-    <p class="fine" style="margin-top:14px"><b>These unlock whatever you say in the video.</b> Nothing here is attached to your Trustpilot review, and nothing is conditional on being nice about us.</p>
-    <div id="applyrow" style="display:none;margin-top:22px;padding-top:20px;border-top:1px solid var(--line)">
+    
+    <p class="fine" style="margin-top:16px">Nothing here is attached to a review. Leave one only if you want to.</p>
+    <div id="applyrow" style="margin-top:22px;padding-top:20px;border-top:1px solid var(--line)">
       <h3>Want the version where somebody walks you through it?</h3>
       <p class="fine" style="margin-bottom:14px">Same thing you saw on the class, with a coach on it.</p>
       <a class="btn" href="https://ugc-world.com/application" target="_top">Apply for a call</a>
@@ -264,13 +210,12 @@ textarea:focus,input:focus,select:focus{outline:none;border-color:var(--accent)}
   <div class="grid" id="grid"></div>
   <button class="btn ghost more-btn" id="loadmore">Show more reviews</button>
 
-  <p class="disc">Trustpilot reviews are collected with nothing attached to them. Video testimonials sent through the form on this page received the class bonuses, whatever they said. Reviews shown are pulled from our public Trustpilot profile.</p>
+  <p class="disc">Trustpilot reviews are collected with nothing attached to them. The bonuses on this page are free to every attendee whether or not they leave a review. Reviews shown are pulled from our public Trustpilot profile.</p>
 </section>
 
 <script src="assets/reviews.js"></script>
 <script>
 var ENDPOINT = window.REVIEW_ENDPOINT || "";
-var VIDEO_ENDPOINT = window.VIDEO_ENDPOINT || "";
 var SVG='<svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>';
 
 /* bonus destinations: paste real URLs here, "" renders "Sent to your email" */
@@ -292,88 +237,6 @@ var BONUSES=[
   var ts=document.getElementById('tpstars');
   for(var i=0;i<5;i++){ var e=document.createElement('i'); e.innerHTML=SVG; ts.appendChild(e); }
 })();
-
-/* ---------- video lane ---------- */
-var stream=null, rec=null, chunks=[], blob=null, tick=null, secs=0, sent=false;
-var pv=document.getElementById('pv'), ph=document.getElementById('ph');
-var bRec=document.getElementById('rec'), bRet=document.getElementById('retake'), bUse=document.getElementById('use');
-var timer=document.getElementById('timer'), tt=document.getElementById('tt'), verr=document.getElementById('verr');
-function vfail(m){ verr.textContent=m; verr.style.display='block'; }
-function fmt(n){ return '0:'+(n<10?'0':'')+n; }
-
-bRec.onclick=async function(){
-  verr.style.display='none';
-  if(!navigator.mediaDevices || !window.MediaRecorder){
-    vfail('This browser will not record video. Chrome or Safari on your phone will.'); return;
-  }
-  try{
-    stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user',width:{ideal:1280}},audio:true});
-  }catch(e){
-    vfail('We could not reach your camera. Allow camera access and try again.'); return;
-  }
-  document.getElementById('stage').classList.add('live');
-  pv.srcObject=stream; pv.muted=true; pv.play();
-  chunks=[]; blob=null;
-  try{ rec=new MediaRecorder(stream); }catch(e){ vfail('Recording is not supported here.'); return; }
-  rec.ondataavailable=function(e){ if(e.data && e.data.size) chunks.push(e.data); };
-  rec.onstop=function(){
-    blob=new Blob(chunks,{type:(chunks[0]&&chunks[0].type)||'video/webm'});
-    stream.getTracks().forEach(function(t){t.stop()});
-    pv.srcObject=null; pv.src=URL.createObjectURL(blob); pv.muted=false; pv.controls=true;
-    timer.classList.remove('on');
-    bRec.style.display='none'; bRet.style.display='inline-block'; bUse.style.display='inline-block';
-    document.getElementById('vfields').classList.add('on');
-  };
-  rec.start();
-  secs=0; tt.textContent=fmt(0)+' / 0:30'; timer.classList.add('on');
-  bRec.textContent='Stop'; bRec.onclick=stopRec;
-  tick=setInterval(function(){ secs++; tt.textContent=fmt(secs)+' / 0:30'; if(secs>=30) stopRec(); },1000);
-};
-function stopRec(){
-  clearInterval(tick);
-  if(rec && rec.state!=='inactive') rec.stop();
-  bRec.textContent='Record it (30s)';
-}
-bRet.onclick=function(){
-  blob=null; pv.controls=false; pv.src='';
-  document.getElementById('stage').classList.remove('live');
-  bRet.style.display='none'; bUse.style.display='none';
-  bRec.style.display='inline-block';
-  document.getElementById('vfields').classList.remove('on');
-  location.reload();
-};
-bUse.onclick=function(){ document.getElementById('vfields').scrollIntoView({behavior:'smooth',block:'center'}); };
-
-document.getElementById('vpost').onclick=function(){
-  var fn=document.getElementById('vfn').value.trim();
-  var em=document.getElementById('vem').value.trim();
-  verr.style.display='none';
-  if(!blob){ vfail('Record a take first.'); return; }
-  if(!fn){ vfail('We need a first name to put on it.'); return; }
-  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){ vfail('That email does not look right.'); return; }
-  var btn=this; btn.disabled=true; btn.textContent='Sending . . .';
-  function done(){ unlock(); }
-  if(VIDEO_ENDPOINT){
-    var fd=new FormData();
-    fd.append('video',blob,'review.webm');
-    fd.append('first_name',fn);
-    fd.append('last_initial',document.getElementById('vli').value.trim());
-    fd.append('email',em);
-    fd.append('source','ugc-world.com/review');
-    fetch(VIDEO_ENDPOINT,{method:'POST',mode:'no-cors',body:fd}).then(done).catch(done);
-    setTimeout(function(){ if(!sent) done(); },4000);
-  } else { done(); }
-};
-function unlock(){
-  if(sent) return; sent=true;
-  var b=document.getElementById('bonus');
-  b.classList.remove('locked');
-  document.getElementById('btitle').textContent="That's it, you're in";
-  document.getElementById('bsub').textContent='All four are open below. We have emailed them to you as well, so you have got them twice.';
-  document.getElementById('lockrow').style.display='none';
-  document.getElementById('applyrow').style.display='block';
-  b.scrollIntoView({behavior:'smooth',block:'start'});
-}
 
 /* ---------- the wall ---------- */
 var R=(window.REVIEWS||{}).reviews||[], META=(window.REVIEWS||{}).meta||{};
