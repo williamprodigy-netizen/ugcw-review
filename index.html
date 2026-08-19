@@ -109,10 +109,6 @@ textarea:focus,input:focus,select:focus{outline:none;border-color:var(--accent)}
   font:700 14.5px var(--font-body);color:var(--mute)}
 .trk{height:11px;background:#e6e2da;border-radius:6px;overflow:hidden}
 .trk i{display:block;height:100%;background:var(--accent)}
-.filters{display:flex;gap:9px;flex-wrap:wrap;margin:26px 0 20px}
-.f{border:2px solid var(--ink);background:#fff;border-radius:999px;padding:9px 17px;
-  font:800 15px var(--font-body);color:var(--ink);cursor:pointer}
-.f.on{background:var(--ink);color:#fff}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 @media(max-width:760px){.grid{grid-template-columns:1fr}}
 .rev{background:#fff;border:2px solid var(--ink);border-radius:14px;padding:19px 20px;box-shadow:var(--shadow)}
@@ -191,7 +187,6 @@ textarea:focus,input:focus,select:focus{outline:none;border-color:var(--accent)}
     <div class="dist" id="dist"></div>
   </div>
 
-  <div class="filters" id="filters"></div>
   <div class="grid" id="grid"></div>
   <button class="btn ghost more-btn" id="loadmore">Show more reviews</button>
 
@@ -235,14 +230,7 @@ var dist=document.getElementById('dist');
   d.innerHTML='<span>'+s+' star</span><span class="trk"><i style="width:'+pct+'%"></i></span><span>'+pct+'%</span>';
   dist.appendChild(d);
 });
-var FILTERS=[{k:'all',l:'All '+R.length},{k:'5',l:'5 star'}];
-var active='all', shown=8;
-var fw=document.getElementById('filters');
-FILTERS.forEach(function(f){
-  var b=document.createElement('button'); b.className='f'+(f.k==='all'?' on':''); b.textContent=f.l;
-  b.onclick=function(){ active=f.k; shown=8; [].forEach.call(fw.children,function(x){x.classList.remove('on')}); b.classList.add('on'); render(); };
-  fw.appendChild(b);
-});
+var shown=8;
 function esc(s){ return (s||'').replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c]; }); }
 function initials(n){ return (n||'?').trim().split(/\s+/).slice(0,2).map(function(w){return w[0]}).join('').toUpperCase(); }
 function shortName(n){ var p=(n||'').trim().split(/\s+/); return p.length>1? p[0]+' '+p[1][0]+'.' : (p[0]||'Anonymous'); }
@@ -254,7 +242,6 @@ function showTitle(r){
 }
 function list(){
   var a=R.slice();
-  if(active==='5') a=a.filter(function(r){return r.stars===5});
   a.sort(function(x,y){ return new Date(y.date)-new Date(x.date); });
   return a;
 }
